@@ -1,4 +1,6 @@
-use crossterm::style::{StyledContent, Stylize};
+use std::{error::Error, io::{self, Write}};
+
+use crossterm::{QueueableCommand, cursor, style::{self, StyledContent, Stylize}};
 
 #[derive(Debug)]
 pub struct Framebuffer {
@@ -8,34 +10,58 @@ pub struct Framebuffer {
 
 impl Framebuffer {
     fn new(window_size: (u16, u16)) -> Self {
-        let (window_width, window_height) = window_size;
+        let (width, height) = window_size;
 
         Framebuffer {
-            buffer: vec![' '.stylize(); (window_width * window_height) as usize],
+            buffer: vec![' '.stylize(); (width * height) as usize],
             size: window_size,
         }
     }
 
     fn get_pixel_at(&self, col: u16, row: u16) -> Result<StyledContent<char>, &str> {
-        if col >= self.size.0 || row >= self.size.1 {
+        let (width, height) = self.size;
+
+        if col >= width || row >= height {
             return Err("Pixel position invalid!");
         }
 
         let col = col as usize;
         let row = row as usize;
 
-        Ok(self.buffer[row * (self.size.0 as usize) + col])
+        Ok(self.buffer[row * (width as usize) + col])
     }
 
     fn set_pixel_at(&mut self, col: u16, row: u16, c: char) -> Result<(), &str> {
-        if col >= self.size.0 || row >= self.size.1 {
+        let (width, height) = self.size;
+
+        if col >= width || row >= height {
             return Err("Pixel position invalid!");
         }
 
         let col = col as usize;
         let row = row as usize;
 
-        self.buffer[row * (self.size.0 as usize) + col] = c.stylize();
+        self.buffer[row * (width as usize) + col] = c.stylize();
+
+        Ok(())
+    }
+
+    fn print(&self) -> Result<(), Box<dyn Error>> {
+        let mut stdout = io::stdout();
+
+        let (width, height) = self.size;
+
+        for row in 0..height {
+            for col in 0..width {
+                let pixel = self.get_pixel_at(col, row)?;
+
+                stdout
+                    .queue(cursor::MoveTo(col, row))?
+                    .queue(style::PrintStyledContent(pixel))?;
+            }
+        }
+
+        stdout.flush()?;
 
         Ok(())
     }
