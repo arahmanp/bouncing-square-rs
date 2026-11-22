@@ -67,6 +67,6 @@ impl Framebuffer {
     }
 }
 
-trait Object {
+pub trait Object {
     fn render_to_buffer(&self, buffer: &mut Framebuffer) -> Result<(), &str>;
 }
