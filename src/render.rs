@@ -1,6 +1,12 @@
-use std::{error::Error, io::{self, Write}};
+use std::{
+    error::Error,
+    io::{self, Write},
+};
 
-use crossterm::{QueueableCommand, cursor, style::{self, StyledContent, Stylize}};
+use crossterm::{
+    QueueableCommand, cursor,
+    style::{self, StyledContent, Stylize},
+};
 
 #[derive(Debug)]
 pub struct Framebuffer {
@@ -31,7 +37,12 @@ impl Framebuffer {
         Ok(self.buffer[row * (width as usize) + col])
     }
 
-    pub fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), String> {
+    pub fn set_pixel_at(
+        &mut self,
+        col: u16,
+        row: u16,
+        pixel: StyledContent<char>,
+    ) -> Result<(), String> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
