@@ -18,11 +18,11 @@ impl Framebuffer {
         }
     }
 
-    pub fn get_pixel_at(&self, col: u16, row: u16) -> Result<StyledContent<char>, &str> {
+    pub fn get_pixel_at(&self, col: u16, row: u16) -> Result<StyledContent<char>, String> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
-            return Err("Pixel position invalid!");
+            return Err(String::from("Pixel position invalid!"));
         }
 
         let col = col as usize;
@@ -31,11 +31,11 @@ impl Framebuffer {
         Ok(self.buffer[row * (width as usize) + col])
     }
 
-    pub fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), &str> {
+    pub fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), String> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
-            return Err("Pixel position invalid!");
+            return Err(String::from("Pixel position invalid!"));
         }
 
         let col = col as usize;
@@ -68,5 +68,5 @@ impl Framebuffer {
 }
 
 pub trait Object {
-    fn render_to_buffer(&self, buffer: &mut Framebuffer) -> Result<(), &str>;
+    fn render_to_buffer(&self, buffer: &mut Framebuffer) -> Result<(), String>;
 }
