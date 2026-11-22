@@ -1,16 +1,28 @@
+use crossterm::style::{Color, StyledContent};
+
 #[derive(Debug)]
 pub struct Square {
     start: (u16, u16),
     end: (u16, u16),
     direction: (i16, i16),
+    texture: StyledContent<char>,
+    color: Color,
 }
 
 impl Square {
-    pub fn new(start: (u16, u16), end: (u16, u16), direction: (i16, i16)) -> Self {
+    pub fn new(
+        start: (u16, u16),
+        end: (u16, u16),
+        direction: (i16, i16),
+        texture: StyledContent<char>,
+        color: Color,
+    ) -> Self {
         Square {
             start,
             end,
             direction,
+            texture,
+            color,
         }
     }
 
