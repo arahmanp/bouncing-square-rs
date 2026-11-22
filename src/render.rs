@@ -66,3 +66,7 @@ impl Framebuffer {
         Ok(())
     }
 }
+
+trait Object {
+    fn render_to_buffer(&self, buffer: &mut Framebuffer) -> Result<(), &str>;
+}
