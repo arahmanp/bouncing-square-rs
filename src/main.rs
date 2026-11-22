@@ -26,15 +26,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let frame_delay = 50_u64; // in millisecond
 
     loop {
-        if event::poll(Duration::from_millis(0))? {
-            if let Event::Key(k) = event::read()? {
-                if k.kind == KeyEventKind::Press {
-                    match k.code {
-                        KeyCode::Char('q') => break,
-                        _ => {}
-                    }
-                }
-            }
+        if event::poll(Duration::from_millis(0))?
+            && let Event::Key(k) = event::read()?
+            && k.kind == KeyEventKind::Press
+            && let KeyCode::Char('q') = k.code
+        {
+            break;
         }
 
         let mut fbuffer = render::Framebuffer::new(window_size);
