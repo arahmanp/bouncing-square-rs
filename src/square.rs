@@ -1,4 +1,6 @@
-use crossterm::style::{Color, StyledContent};
+use crossterm::style::{Color, StyledContent, Stylize};
+
+use crate::render;
 
 #[derive(Debug)]
 pub struct Square {
@@ -52,5 +54,20 @@ impl Square {
 
         self.start = new_start;
         self.end = new_end;
+    }
+}
+
+impl render::Object for Square {
+    fn render_to_buffer(&self, buffer: &mut render::Framebuffer) -> Result<(), String> {
+        let (start_col, start_row) = self.start;
+        let (end_col, end_row) = self.end;
+
+        for row in start_row..=end_row {
+            for col in start_col..=end_col {
+                let pixel = self.texture.on(self.color);
+                buffer.set_pixel_at(col, row, pixel)?;
+            }
+        }
+        Ok(())
     }
 }
