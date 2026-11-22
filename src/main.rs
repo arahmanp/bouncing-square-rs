@@ -1,4 +1,5 @@
 mod square;
+mod render;
 
 fn main() {
     let window_size = (7_u16, 4_u16);
