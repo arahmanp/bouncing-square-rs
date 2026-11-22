@@ -9,7 +9,7 @@ pub struct Framebuffer {
 }
 
 impl Framebuffer {
-    fn new(window_size: (u16, u16)) -> Self {
+    pub fn new(window_size: (u16, u16)) -> Self {
         let (width, height) = window_size;
 
         Framebuffer {
@@ -18,7 +18,7 @@ impl Framebuffer {
         }
     }
 
-    fn get_pixel_at(&self, col: u16, row: u16) -> Result<StyledContent<char>, &str> {
+    pub fn get_pixel_at(&self, col: u16, row: u16) -> Result<StyledContent<char>, &str> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
@@ -31,7 +31,7 @@ impl Framebuffer {
         Ok(self.buffer[row * (width as usize) + col])
     }
 
-    fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), &str> {
+    pub fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), &str> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
@@ -46,7 +46,7 @@ impl Framebuffer {
         Ok(())
     }
 
-    fn print(&self) -> Result<(), Box<dyn Error>> {
+    pub fn print(&self) -> Result<(), Box<dyn Error>> {
         let mut stdout = io::stdout();
 
         let (width, height) = self.size;
