@@ -31,7 +31,7 @@ impl Framebuffer {
         Ok(self.buffer[row * (width as usize) + col])
     }
 
-    fn set_pixel_at(&mut self, col: u16, row: u16, c: char) -> Result<(), &str> {
+    fn set_pixel_at(&mut self, col: u16, row: u16, pixel: StyledContent<char>) -> Result<(), &str> {
         let (width, height) = self.size;
 
         if col >= width || row >= height {
@@ -41,7 +41,7 @@ impl Framebuffer {
         let col = col as usize;
         let row = row as usize;
 
-        self.buffer[row * (width as usize) + col] = c.stylize();
+        self.buffer[row * (width as usize) + col] = pixel;
 
         Ok(())
     }
