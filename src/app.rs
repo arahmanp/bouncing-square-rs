@@ -15,7 +15,7 @@ pub struct App {
 }
 
 impl App {
-    fn init() -> io::Result<Self> {
+    pub fn init() -> io::Result<Self> {
         let window_size = terminal::size()?;
 
         let color_list = vec![
@@ -39,7 +39,7 @@ impl App {
         })
     }
 
-    fn start(&mut self) -> Result<(), Box<dyn Error>> {
+    pub fn start(&mut self) -> Result<(), Box<dyn Error>> {
         let mut stdout = io::stdout();
 
         terminal::enable_raw_mode()?;
