@@ -61,10 +61,6 @@ impl Square {
 
         is_collide
     }
-
-    pub fn change_color(&mut self, new_color: Color) {
-        self.color = new_color;
-    }
 }
 
 impl render::Object for Square {
