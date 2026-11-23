@@ -55,6 +55,10 @@ impl Square {
         self.start = new_start;
         self.end = new_end;
     }
+
+    pub fn change_color(&mut self, new_color: Color) {
+        self.color = new_color;
+    }
 }
 
 impl render::Object for Square {
