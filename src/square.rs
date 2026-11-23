@@ -28,18 +28,22 @@ impl Square {
         }
     }
 
-    pub fn update_position(&mut self, window_size: (u16, u16)) {
+    pub fn update_position(&mut self, window_size: (u16, u16)) -> bool {
         let (window_width, window_height) = window_size;
         let (start_col, start_row) = self.start;
         let (end_col, end_row) = self.end;
         let (d_col, d_row) = self.direction;
 
+        let mut is_collide = false;
+
         if (start_col == 0 && d_col == -1) || (end_col == window_width - 1 && d_col == 1) {
             self.direction.0 *= -1;
+            is_collide = true;
         }
 
         if (start_row == 0 && d_row == -1) || (end_row == window_height - 1 && d_row == 1) {
-            self.direction.1 *= -1
+            self.direction.1 *= -1;
+            is_collide = true;
         }
 
         let new_start = (
@@ -54,6 +58,8 @@ impl Square {
 
         self.start = new_start;
         self.end = new_end;
+
+        is_collide
     }
 
     pub fn change_color(&mut self, new_color: Color) {
