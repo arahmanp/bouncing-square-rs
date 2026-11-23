@@ -9,6 +9,7 @@ use crossterm::{
 
 use crate::render::Object;
 
+mod app;
 mod render;
 mod square;
 
