@@ -1,7 +1,7 @@
 use std::{error::Error, io, thread::sleep, time::Duration};
 
 use crossterm::{
-    ExecutableCommand,
+    ExecutableCommand, cursor,
     event::{self, Event, KeyCode, KeyEventKind},
     style::{Color, Stylize},
     terminal,
@@ -17,7 +17,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let mut stdout = io::stdout();
 
-    stdout.execute(terminal::Clear(terminal::ClearType::All))?;
+    stdout
+        .execute(terminal::Clear(terminal::ClearType::All))?
+        .execute(cursor::Hide)?;
 
     let window_size = terminal::size()?;
 
@@ -44,6 +46,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         sleep(Duration::from_millis(frame_delay));
     }
+
+    stdout
+        .execute(terminal::Clear(terminal::ClearType::All))?
+        .execute(cursor::MoveTo(0, 0))?;
 
     terminal::disable_raw_mode()?;
     Ok(())
