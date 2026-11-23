@@ -1,10 +1,16 @@
 use std::{error::Error, io, thread::sleep, time::Duration};
 
 use crossterm::{
-    ExecutableCommand, cursor, event::{self, Event, KeyCode, KeyEventKind}, style::{Color, Stylize}, terminal,
+    ExecutableCommand, cursor,
+    event::{self, Event, KeyCode, KeyEventKind},
+    style::{Color, Stylize},
+    terminal,
 };
 
-use crate::{render::{Framebuffer, Object}, square::Square};
+use crate::{
+    render::{Framebuffer, Object},
+    square::Square,
+};
 
 #[derive(Debug)]
 pub struct App {
@@ -43,7 +49,7 @@ impl App {
         let mut stdout = io::stdout();
 
         terminal::enable_raw_mode()?;
-        
+
         stdout
             .execute(terminal::Clear(terminal::ClearType::All))?
             .execute(cursor::Hide)?;
