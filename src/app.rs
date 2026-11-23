@@ -81,4 +81,16 @@ impl App {
 
         Ok(())
     }
+
+    pub fn end(&self) -> io::Result<()> {
+        let mut stdout = io::stdout();
+
+        stdout
+            .execute(terminal::Clear(terminal::ClearType::All))?
+            .execute(cursor::MoveTo(0, 0))?;
+
+        terminal::disable_raw_mode()?;
+
+        Ok(())
+    }
 }
