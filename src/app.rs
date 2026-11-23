@@ -57,9 +57,8 @@ impl App {
         loop {
             if event::poll(Duration::from_millis(0))? {
                 if let Event::Key(k) = event::read()?
-                    && k.kind == KeyEventKind::Press {
-                        if let KeyCode::Char('q') = k.code { break }
-                    }
+                    && k.kind == KeyEventKind::Press
+                        && let KeyCode::Char('q') = k.code { break }
 
                 if let Event::Resize(new_width, new_height) = event::read()? {
                     self.window_size = (new_width, new_height);
